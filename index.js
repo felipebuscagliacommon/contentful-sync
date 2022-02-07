@@ -1,5 +1,5 @@
 const DumpContentful = require('./lib/DumpContentful.js');
-const DiffSpaces = require('./lib/DiffSpaces.js');
+const Diff = require('./lib/Diff.js');
 const upsertContentful = require('./lib/upsertContentful.js');
 
 const validateKeys = (config) => {
@@ -18,6 +18,6 @@ module.exports = async (config) => {
   }
   const contentful = new DumpContentful(config);
   const contentfulData = await contentful.dump();
-  const { differences } = new DiffSpaces(contentfulData);
+  const { differences } = new Diff(contentfulData);
   return await upsertContentful(config, differences);
 }

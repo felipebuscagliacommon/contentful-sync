@@ -1,11 +1,11 @@
-const DiffSpaces = require('../lib/DiffSpaces.js');
+const Diff = require('../lib/Diff.js');
 const expect = require('chai').expect;
 const moment = require('moment');
 
-describe('DiffSpaces', function() {
+describe('Diff', function() {
   it('correctly finds new content', function() {
     const mockContentfulData = {
-      stagingData: {
+      originData: {
         assets: [
           {
             sys: { id: 1 },
@@ -24,13 +24,13 @@ describe('DiffSpaces', function() {
         ],
         contentTypes: []
       },
-      productionData: {
+      targetData: {
         assets: [],
         entries: [],
         contentTypes: []
       }
     };
-    const differences = new DiffSpaces(mockContentfulData).differences;
+    const differences = new Diff(mockContentfulData).differences;
     const expectedDifferences = [
       {
         type: 'Entries',
@@ -70,7 +70,7 @@ describe('DiffSpaces', function() {
   it('correctly finds updated content', function() {
     const assetPublishedAt = moment().add(1, 'days').toDate();
     const mockContentfulData = {
-      stagingData: {
+      originData: {
         assets: [
           {
             sys: {
@@ -91,7 +91,7 @@ describe('DiffSpaces', function() {
         ],
         contentTypes: []
       },
-      productionData: {
+      targetData: {
         assets: [
           {
             sys: {
@@ -141,18 +141,18 @@ describe('DiffSpaces', function() {
         removedContent: []
       }
     ];
-    const differences = new DiffSpaces(mockContentfulData).differences;    
+    const differences = new Diff(mockContentfulData).differences;    
     expect(differences).to.deep.equal(expectedDifferences);
     
   });
   it('correctly finds removed content', function() {
     const mockContentfulData = {
-      stagingData: {
+      originData: {
         assets: [],
         entries: [],
         contentTypes: []
       },
-      productionData: {
+      targetData: {
         assets: [
           {
             sys: { id: 1 },
@@ -198,7 +198,7 @@ describe('DiffSpaces', function() {
         removedContent: []
       }
     ];
-    const differences = new DiffSpaces(mockContentfulData).differences;    
+    const differences = new Diff(mockContentfulData).differences;    
     expect(differences).to.deep.equal(expectedDifferences);
   });
 });
